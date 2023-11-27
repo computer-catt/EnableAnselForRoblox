@@ -38,7 +38,9 @@ namespace EnableAnselForRoblox
             if (File.Exists(latestbloxstraproblox + "\\RobloxPlayerBeta.exe"))
             {
                 string rpbtemp = latestbloxstraproblox + "\\RobloxPlayerBeta.exe";
+                File.Delete(latestbloxstraproblox + "\\eurotrucks2.exe");
                 File.Copy(rpbtemp, latestbloxstraproblox + "\\eurotrucks2.exe");
+                File.Delete(latestbloxstraproblox + "\\RobloxPlayerBeta.bak");
                 File.Copy(rpbtemp, latestbloxstraproblox + "\\RobloxPlayerBeta.bak");
                 File.Delete(rpbtemp);
                 System.Net.WebClient wc = new System.Net.WebClient();

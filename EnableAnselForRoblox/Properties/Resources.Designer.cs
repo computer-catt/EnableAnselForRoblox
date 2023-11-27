@@ -59,15 +59,5 @@ namespace EnableAnselForRoblox.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] RobloxPlayerBeta {
-            get {
-                object obj = ResourceManager.GetObject("RobloxPlayerBeta", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }
