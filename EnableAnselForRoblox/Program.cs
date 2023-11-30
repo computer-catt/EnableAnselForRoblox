@@ -60,15 +60,7 @@ namespace EnableAnselForRoblox
                         wc.DownloadFile("https://github.com/DED0026/EnableAnselForRoblox/releases/download/Resources/BloxstrapShortcut.exe", rpbtemp);
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Ansel successfully enabled!");
-                        Console.WriteLine("Install default shaders?");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("   ADMINISTRATOR ONLY");
-                        Console.ResetColor();
-                        Console.WriteLine("        Y \\ N");
-                        if (Console.ReadLine().Trim().ToUpper() == "Y")
-                        {
-                            Installshaderfolder();
-                        }
+                        Installshaderfolder();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Thank you for using Ansel enabler for Roblox.\nPress any key to open roblox.");
                         Console.ReadLine();
@@ -87,12 +79,12 @@ namespace EnableAnselForRoblox
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Ansel is already enabled.");
-                    Console.ReadLine();
                     Console.ResetColor();
                     if (!Directory.Exists(anseleater + "\\Ansel"))
                     {
                         Installshaderfolder();
                     }
+                    Console.ReadLine();
                     Environment.Exit(69);
                 }
             }
@@ -100,30 +92,47 @@ namespace EnableAnselForRoblox
 
         static void Installshaderfolder()
         {
-            if (Directory.Exists(anseleater + "\\Ansel"))
+            Console.WriteLine("Install default shaders?");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("   ADMINISTRATOR ONLY");
+            Console.ResetColor();
+            Console.WriteLine("        Y \\ N");
+            if (Console.ReadLine().Trim().ToUpper() == "Y")
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("The Ansel filters folder was already found on the system.\nwould you like to delete it to automatically download the recommended filters?");
-                Console.ResetColor();
-                Console.WriteLine("Y \\ N");
-                if (Console.ReadLine().Trim().ToUpper() == "Y")
+                if (Directory.Exists(anseleater + "\\Ansel"))
                 {
-                    Directory.Delete(anseleater + "\\Ansel", true);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("The Ansel filters folder was already found on the system.\nwould you like to delete it to automatically download the recommended filters?");
+                    Console.ResetColor();
+                    Console.WriteLine("Y \\ N");
+                    if (Console.ReadLine().Trim().ToUpper() == "Y")
+                    {
+                        Directory.Delete(anseleater + "\\Ansel", true);
+                    }
+                    else { return; }
                 }
-                else { return; }
-            }
-            wc.DownloadFile("https://github.com/DED0026/EnableAnselForRoblox/releases/download/Resources/Ansel.zip", "Ansel.zip");
-            ZipFile.ExtractToDirectory("Ansel.zip", anseleater);
-            File.Delete("Ansel.zip");
-            if (Directory.Exists(anseleater + "\\Ansel"))
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Ansel filters have been downloaded successfully.");
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("RAHHHH");
+                wc.DownloadFile("https://github.com/DED0026/EnableAnselForRoblox/releases/download/Resources/Ansel.zip", "Ansel.zip");
+                
+                try
+                {
+                    ZipFile.ExtractToDirectory("Ansel.zip", anseleater);
+                }
+                catch(UnauthorizedAccessException)
+                { 
+                    Console.WriteLine("Administrator permissions werent given. cannot extract the ansel folder"); 
+                }
+                
+                File.Delete("Ansel.zip");
+                if (Directory.Exists(anseleater + "\\Ansel"))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Ansel filters have been downloaded successfully.");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Ansel filters have not been downloaded successfully.");
+                }
             }
         }
     }
