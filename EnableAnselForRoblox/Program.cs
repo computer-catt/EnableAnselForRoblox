@@ -79,7 +79,7 @@ namespace EnableAnselForRoblox
                     {
                         Console.Write(meow);
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Roblox was installed with administrator permissions.\nPlease restart this application with administrator permissions to fix this issue");
+                        Console.WriteLine("\nRoblox was installed with administrator permissions.\nPlease restart this application with administrator permissions to fix this issue");
                         Console.ReadLine();
                         Environment.Exit(69);
                     }
@@ -89,7 +89,7 @@ namespace EnableAnselForRoblox
                     Console.WriteLine("Ansel is already enabled.");
                     Console.ReadLine();
                     Console.ResetColor();
-                    if (Directory.Exists(anseleater + "\\Ansel"))
+                    if (!Directory.Exists(anseleater + "\\Ansel"))
                     {
                         Installshaderfolder();
                     }
@@ -108,7 +108,7 @@ namespace EnableAnselForRoblox
                 Console.WriteLine("Y \\ N");
                 if (Console.ReadLine().Trim().ToUpper() == "Y")
                 {
-                    Directory.Delete(anseleater, true);
+                    Directory.Delete(anseleater + "\\Ansel", true);
                 }
                 else { return; }
             }
