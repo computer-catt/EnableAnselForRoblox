@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Threading;
 
 namespace EnableAnselForRoblox
 {
@@ -10,6 +11,7 @@ namespace EnableAnselForRoblox
     {
         static string Robloxfolderversion;
         static string Bloxstrap;
+        static string cachefile;
         readonly static string anseleater = @"C:\Program Files\NVIDIA Corporation";
         readonly static System.Net.WebClient wc = new System.Net.WebClient();
 
@@ -23,16 +25,16 @@ namespace EnableAnselForRoblox
             catch (NullReferenceException)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Bloxstrap isnt installed on the system. \nplease install Bloxstrap.");
+                Console.WriteLine("Bloxstrap isnt installed on the system. \nPlease install Bloxstrap.");
                 Console.ReadLine();
                 Environment.Exit(69);
             }
             string[] Robloxversion = File.ReadAllLines(Bloxstrap + "\\State.json");
             foreach (string Robloxversion_ in Robloxversion)
             {
-                if (Robloxversion_.Contains("\"VersionGuid\": \""))
+                if (Robloxversion_.Contains("\"VersionGuid\": \"") || Robloxversion_.Contains("\"PlayerVersionGuid\": \""))
                 {
-                    Robloxfolderversion = Robloxversion_.Replace("  \"VersionGuid\": \"", "").Replace("\",", "");
+                    Robloxfolderversion = Robloxversion_.Replace("\"VersionGuid\": \"", "").Replace("\"PlayerVersionGuid\": \"", "").Replace("\",", "").Trim();
                 }
             }
             string latestBloxstrapRoblox = Bloxstrap + "\\Versions\\" + Robloxfolderversion;
@@ -41,7 +43,7 @@ namespace EnableAnselForRoblox
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Error while fetching Bloxstrap Roblox version. please contact me on Discord. \nfetch my Discord from my Discord webpage http://owo.bounceme.net");
+                Console.WriteLine("Error while fetching Bloxstrap Roblox version.\nTry starting roblox through Bloxstrap, if that doesnt work:\nPlease contact me on Discord. \nFetch my Discord from my Discord webpage http://owo.bounceme.net");
                 Console.ReadLine();
                 Environment.Exit(69);
             }
@@ -51,15 +53,24 @@ namespace EnableAnselForRoblox
                 if (new FileInfo(latestBloxstrapRoblox + "\\RobloxPlayerBeta.exe").Length > 1000000)
                     try
                     {
+                        foreach (Process Roblox in Process.GetProcesses())
+                        {
+                            if (Roblox.ProcessName == "RobloxPlayerBeta")
+                            {
+                                Roblox.Kill();
+                                Thread.Sleep(500);
+                            }
+                        }
+
                         string rpbtemp = latestBloxstrapRoblox + "\\RobloxPlayerBeta.exe";
                         File.Delete(latestBloxstrapRoblox + "\\eurotrucks2.exe");
                         File.Copy(rpbtemp, latestBloxstrapRoblox + "\\eurotrucks2.exe");
-                        File.Delete(latestBloxstrapRoblox + "\\RobloxPlayerBeta.bak");
-                        File.Copy(rpbtemp, latestBloxstrapRoblox + "\\RobloxPlayerBeta.bak");
                         File.Delete(rpbtemp);
                         wc.DownloadFile("https://github.com/DED0026/EnableAnselForRoblox/releases/download/Resources/BloxstrapShortcut.exe", rpbtemp);
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Ansel successfully enabled!");
+                        Console.ResetColor();
+                        RecoverShaders(latestBloxstrapRoblox);
                         Installshaderfolder();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Thank you for using Ansel enabler for Roblox.\nPress any key to open roblox.");
@@ -86,6 +97,57 @@ namespace EnableAnselForRoblox
                     }
                     Console.ReadLine();
                     Environment.Exit(69);
+                }
+            }
+        }
+
+        static void RecoverShaders(string LBR)
+        {
+            string Nvidigay = Environment.ExpandEnvironmentVariables("%localappdata%\\NVIDIA Corporation\\NVIDIA Share");
+
+            if (!Directory.Exists(Nvidigay))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Nvidia Filter cache folder not found.\nNvidia experience may not be set up on your pc or this couldnt find it.\nContinuing for debugging purposes");
+                Directory.CreateDirectory(Nvidigay);
+                Console.ResetColor();
+            }
+
+            try
+            {
+                if (File.Exists(Nvidigay + "\\RobloxShaderCache"))
+                    cachefile = File.ReadAllText(Nvidigay + "\\RobloxShaderCache").Trim();
+                else
+                {
+                    File.WriteAllText(Nvidigay + "\\RobloxShaderCache", LBR + "\\eurotrucks2.exe");
+                }
+            }
+            catch
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Nvidia sucks. contact me.");
+                Console.ResetColor();
+            }
+
+            if (cachefile != (LBR + "\\eurotrucks2.exe").Trim())
+            {
+                Console.WriteLine("Since roblox updated your shader config would be reset.\nRecover shaders?(EXPERIMENTAL!!)");
+                Console.WriteLine("         Y \\ N");
+                if (Console.ReadLine().Trim().ToUpper() == "Y")
+                {
+                    try
+                    {
+                        string NvgayConfig = Nvidigay + "\\sharedstorage.json";
+                        File.WriteAllText(NvgayConfig, File.ReadAllText(NvgayConfig).Replace(cachefile, (LBR + "\\eurotrucks2.exe").Trim()));
+                        File.WriteAllText(Nvidigay + "\\RobloxShaderCache", LBR + "\\eurotrucks2.exe");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("didnt work (lol), show me the error.\n\n");
+                        Console.WriteLine(e.ToString());
+                        Console.ResetColor();
+                    }
                 }
             }
         }
