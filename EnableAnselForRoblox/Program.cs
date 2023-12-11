@@ -138,7 +138,7 @@ namespace EnableAnselForRoblox
                     try
                     {
                         string NvgayConfig = Nvidigay + "\\sharedstorage.json";
-                        File.WriteAllText(NvgayConfig, File.ReadAllText(NvgayConfig).Replace(cachefile, (LBR + "\\eurotrucks2.exe").Trim()));
+                        File.WriteAllText(NvgayConfig, File.ReadAllText(NvgayConfig).Replace("modsIsEnabled\":false", "modsIsEnabled\":true").Replace(cachefile, (LBR + "\\eurotrucks2.exe").Trim()));
                         File.WriteAllText(Nvidigay + "\\RobloxShaderCache", LBR + "\\eurotrucks2.exe");
                     }
                     catch (Exception e)
