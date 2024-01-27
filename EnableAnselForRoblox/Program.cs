@@ -48,56 +48,68 @@ namespace EnableAnselForRoblox
                 Environment.Exit(69);
             }
             Console.WriteLine("Checking for Roblox, cloning and renaming.");
-            if (File.Exists(latestBloxstrapRoblox + "\\RobloxPlayerBeta.exe"))
-            {
-                if (new FileInfo(latestBloxstrapRoblox + "\\RobloxPlayerBeta.exe").Length > 1000000)
-                    try
-                    {
-                        foreach (Process Roblox in Process.GetProcesses())
-                        {
-                            if (Roblox.ProcessName == "RobloxPlayerBeta")
-                            {
-                                Roblox.Kill();
-                                Thread.Sleep(500);
-                            }
-                        }
 
-                        string rpbtemp = latestBloxstrapRoblox + "\\RobloxPlayerBeta.exe";
-                        File.Delete(latestBloxstrapRoblox + "\\eurotrucks2.exe");
-                        File.Copy(rpbtemp, latestBloxstrapRoblox + "\\eurotrucks2.exe");
-                        File.Delete(rpbtemp);
-                        wc.DownloadFile("https://github.com/DED0026/EnableAnselForRoblox/releases/download/Resources/BloxstrapShortcut.exe", rpbtemp);
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Ansel successfully enabled!");
-                        Console.ResetColor();
-                        RecoverShaders(latestBloxstrapRoblox);
-                        Installshaderfolder();
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Thank you for using Ansel enabler for Roblox.\nPress any key to open roblox.");
-                        Console.ReadLine();
-                        Process.Start(Bloxstrap + "\\Bloxstrap.exe");
-                        Environment.Exit(69);
-                    }
-                    catch (UnauthorizedAccessException meow)
-                    {
-                        Console.Write(meow);
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("\nRoblox was installed with administrator permissions.\nPlease restart this application with administrator permissions to fix this issue");
-                        Console.ReadLine();
-                        Environment.Exit(69);
-                    }
-                else
+            if (!File.Exists(latestBloxstrapRoblox + "\\RobloxPlayerBeta.exe"))
+            {
+                if (!File.Exists(latestBloxstrapRoblox + "\\eurotrucks2.exe"))
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Ansel is already enabled.");
-                    Console.ResetColor();
-                    if (!Directory.Exists(anseleater + "\\Ansel"))
-                    {
-                        Installshaderfolder();
-                    }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Roblox not detected in the roblox path.\nmake sure you're not using a version of bloxstrap which renames roblox.");
                     Console.ReadLine();
                     Environment.Exit(69);
                 }
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("An alternative method of enabling ansel was used.\ncontinuing.");
+                Console.ResetColor();
+            }
+
+            if (new FileInfo(latestBloxstrapRoblox + "\\RobloxPlayerBeta.exe").Length > 1000000)
+                try
+                {
+                    foreach (Process Roblox in Process.GetProcesses())
+                    {
+                        if (Roblox.ProcessName == "RobloxPlayerBeta")
+                        {
+                            Roblox.Kill();
+                            Thread.Sleep(500);
+                        }
+                    }
+
+                    string rpbtemp = latestBloxstrapRoblox + "\\RobloxPlayerBeta.exe";
+                    File.Delete(latestBloxstrapRoblox + "\\eurotrucks2.exe");
+                    File.Copy(rpbtemp, latestBloxstrapRoblox + "\\eurotrucks2.exe");
+                    File.Delete(rpbtemp);
+                    wc.DownloadFile("https://github.com/DED0026/EnableAnselForRoblox/releases/download/Resources/BloxstrapShortcut.exe", rpbtemp);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Ansel successfully enabled!");
+                    Console.ResetColor();
+                    RecoverShaders(latestBloxstrapRoblox);
+                    Installshaderfolder();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Thank you for using Ansel enabler for Roblox.\nPress any key to open roblox.");
+                    Console.ReadLine();
+                    Process.Start(Bloxstrap + "\\Bloxstrap.exe");
+                    Environment.Exit(69);
+                }
+                catch (UnauthorizedAccessException meow)
+                {
+                    Console.Write(meow);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nRoblox was installed with administrator permissions.\nPlease restart this application with administrator permissions to fix this issue");
+                    Console.ReadLine();
+                    Environment.Exit(69);
+                }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Ansel is already enabled.");
+                Console.ResetColor();
+                if (!Directory.Exists(anseleater + "\\Ansel"))
+                {
+                    Installshaderfolder();
+                }
+                Console.ReadLine();
+                Environment.Exit(69);
             }
         }
 
@@ -131,6 +143,7 @@ namespace EnableAnselForRoblox
 
             if (cachefile != (LBR + "\\eurotrucks2.exe").Trim())
             {
+                Console.WriteLine("This is probably not going to work.");
                 Console.WriteLine("Since roblox updated your shader config would be reset.\nRecover shaders?(EXPERIMENTAL!!)");
                 Console.WriteLine("         Y \\ N");
                 if (Console.ReadLine().Trim().ToUpper() == "Y")
