@@ -20,10 +20,6 @@ tries to enable ansel for all applications.
 # Contributing
 just create a pull request if you want to add something.
 
-or
-
-ping me in the reshade discord.
-
 # Examples:
 ![image](https://github.com/DED0026/EnableAnselForRoblox/assets/98061642/59b5cdc7-1143-43ea-8278-c221f6c13b35)
 ![image](https://github.com/DED0026/EnableAnselForRoblox/assets/98061642/3b1960ce-161f-42ef-9f73-6d60a0a03e6b)
