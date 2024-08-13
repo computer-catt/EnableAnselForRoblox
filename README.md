@@ -1,5 +1,11 @@
+# I don't maintain this project anymore!
+it may not work
+
+<img src="https://github.com/user-attachments/assets/9312ccf7-2153-425f-892e-8c54211dcd9f" alt="drawing" width="100"/>
+
+
 # EnableAnselForRoblox
-this is just a simple tool/application to make the nessesary changes for Nvidia ansel to run for roblox.
+this is just a simple tool/application to make the necessary changes for Nvidia ansel to run for roblox.
 
 hobby project to learn c# and registry values.
 
@@ -12,10 +18,6 @@ downloads can be found in the [releases](https://github.com/DED0026/EnableAnselF
 renames the roblox executable for ansel to function.
 
 downloads the cool effects for ansel.
-
-tries to move the saved effects from one roblox location to the next via modifying the file where the effects are stored.
-
-tries to enable ansel for all applications.
 
 # Contributing
 just create a pull request if you want to add something.
